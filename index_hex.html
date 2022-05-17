@@ -1,0 +1,346 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>INDICADORES URBANOS - SFLL</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+      body { margin:0; 
+        padding:0; 
+        font-family: helvetica; 
+        font-size: 14px; 
+      }
+      #map { position:absolute; top:0; bottom:0; width:100%; }
+    li {
+      padding:3px 0;
+    }
+    #panel{
+      background: white;
+      width: 300px; 
+      border: 1px solid rgba(0,0,0,0.05);
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      bottom: 16px;
+      box-shadow: 0 0 4px 0 rgba(0,0,0,0.1);
+      color: rgba(0,0,0,0.5);
+    }
+    h4 {
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      margin: 0;
+      padding: 16px;   
+    }
+    h5 {
+      text-transform: uppercase;
+      margin: 0;
+      padding: 12px;
+      padding-bottom: 8px 
+    }
+    ul{
+      list-style-type: none;
+      margin: 0;
+      padding-left: 16px;
+      padding-bottom: 8px;
+      padding-top: 0px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    ul span {
+      width: 10px;
+      height: 10px;
+      display: inline-block;
+      margin-right: 8px;
+    }
+    dd{
+      margin-left: 0;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    .mapboxgl-popup-content{
+      font-size: 14px;
+      color: rgba(0,0,0,0.5);
+      min-width: 250px;
+      max-width: 400px;
+      box-shadow: 0 0 4px 0 rgba(0,0,0,0.1);
+    }
+    dl{
+      margin-bottom: 0;
+    }
+
+    #menu {
+      background: #fff;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+      margin-left: 12px;
+      margin-top: 5px;
+      width: 150px;
+      font-family: 'Helvetica';
+    }
+        
+    #menu a {
+      font-size: 10px;
+      color: #404040;
+      display: block;
+      margin: 0;
+      padding: 0;
+      padding: 5px;
+      text-decoration: none;
+      border-bottom: 1px solid #fff;
+      text-align: left;
+    }
+        
+    #menu a:last-child {
+      border: none;
+    }
+        
+    #menu a:hover {
+      background-color: #f8f8f8;
+      color: #404040;
+    }
+        
+    #menu a.active {
+      background-color: #404040;
+      color: #f8f8f8;
+    }
+        
+    #menu a.active:hover {
+      background: #cccccc;
+    }
+
+  </style>
+</head>
+<body>
+ 
+<div id='map'></div>
+  
+  <div id="panel" style="">
+    <h4>Comparativa indicadores //
+      // Sant Feliu del LLobregat</h4>
+    <h5>Densidad de Población</h5>
+    <ul>
+      <li><span style="background:#ffffff; border: 1px solid #ccc; box-sizing: border-box;"></span> > 0   < 60 hab/Ha. </li>
+      <li><span style="background:#fee3d7d0;"></span> > 60  < 110 hab/Ha. </li>
+      <li><span style="background:#fcae92d0;"></span> > 110 < 220 hab/Ha. </li>
+      <li><span style="background:#fb6b4bd0;"></span> > 220 < 350 hab/Ha. </li>
+      <li><span style="background:#df2c26d0;"></span> > 350 < 450 hab/Ha. </li>
+      <li><span style="background:#a30f14d0;"></span> > 450 hab/Ha. </li>
+    </ul>
+    <h5>compacidad absoluta</h5>
+    <ul>
+      <li><span style="background:#750000e0; border-radius: 50%; width: 3px; height: 3px;"></span>> 0 m < 1.2 m</li>
+      <li><span style="background:#750000e0; border-radius: 50%; width: 6px; height: 6px;"></span>> 1.2 m < 2.5 m</li>
+      <li><span style="background:#750000e0; border-radius: 50%; width: 9px; height: 9px;"></span>> 2.5 m < 4 m</li>
+      <li><span style="background:#750000e0; border-radius: 50%; width: 15px; height: 15px;"></span>> 4 m < 6.25 m</li>
+      <li><span style="background:#750000e0; border-radius: 50%; width: 24px; height: 24px;"></span>> 6.25 m < 10 m</li>
+    </ul>
+    <h5>compacidad corregida</h5>
+    <ul>
+      <li><span style="background:#ffffff00; border-radius: 50%; width: 3px; height: 3px; border: 2px solid #52e000; box-sizing: border-box;"></span>= 0 m</li>
+      <li><span style="background:#ffffff00; border-radius: 50%; width: 6px; height: 6px; border: 2px solid #52e000; box-sizing: border-box;"></span>> 0 m < 7.5 m</li>
+      <li><span style="background:#ffffff00; border-radius: 50%; width: 9px; height: 9px; border: 2px solid #52e000; box-sizing: border-box;"></span>> 7.5 m < 11.5 m</li>
+      <li><span style="background:#ffffff00; border-radius: 50%; width: 15px; height: 15px; border: 2px solid #52e000; box-sizing: border-box;"></span>> 11.5 m < 16 m</li>
+      <li><span style="background:#ffffff00; border-radius: 50%; width: 24px; height: 24px; border: 2px solid #52e000; box-sizing: border-box;"></span>>16 m < 24 m</li>
+    </ul>
+    <h5>control de capas</h5>
+    <nav id="menu"></nav>
+
+
+  </div>
+  
+
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoicm9kcmlnb2JjbmVjb2xvZ2lhIiwiYSI6ImNqczRjbTF2YTAzY3Y0M2x4Nmh1cWM4NGoifQ.yFnumA_xNiN3_rVlCGnH_g';
+    
+    // Set bounds to New York, Sant Feliu del Llobregat
+    var bounds = [
+    [1.955,41.295], // Southwest coordinates
+    [2.155,41.495]  // Northeast coordinates
+    ];
+    
+    var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/rodrigobcnecologia/cjsn9xim06ves1fpelopjbccf', // stylesheet location
+    center: [2.047,41.385], // starting position [lng, lat]
+    zoom: 14, // starting zoom
+    minZoom: 13,
+    maxZoom: 19.5,
+    maxBounds: bounds,
+    hash: false
+    });
+
+    var nav = new mapboxgl.NavigationControl();
+    map.addControl(nav, 'top-left');
+    /*
+    function onClick(event) {
+        console.log('Mouse Clicked');
+        console.log(event.point);
+    }
+    map.on('click', onClick);*/
+
+    map.on('mousemove', function (event) {
+     // console.log(event);
+      var features = map.queryRenderedFeatures(event.point, {
+        layers: ['DENS_HAB']
+      });
+      map.getCanvas().style.cursor = (features.length) ? 'crosshair':'';
+    });
+
+    map.on('click', function(event) {
+         //console.log('Mouse Clicked');
+         //console.log(event.point);
+
+         var geometry = event.point;
+         var parameters = {
+             layers: ['DENS_HAB']
+         };
+         var features = map.queryRenderedFeatures(geometry, parameters);
+         //console.log(features);
+         //console.log(features.length + ' features');
+         var index = features[0];
+         console.log(index);
+
+        if (features.length) { 
+          var DENS_POBL_ = index.properties.DENS_POBL_ || '—' ;
+          var CA = index.properties.CA || '—';
+          var CC = index.properties.CC || '—';
+          var SUMA_EE = index.properties.SUMA_EE || '—';
+          var SUM_POBL = index.properties.SUM_POBL || '—';
+          console.log( DENS_POBL_, CA, CC, SUMA_EE, SUM_POBL );
+
+          var popup = new mapboxgl.Popup()
+              .setLngLat(event.lngLat)
+              .setHTML('<dl>' +
+                  '<dt>DENS_POBL_</dt>' +
+                  '<dd>' + DENS_POBL_ + '</dd>' +
+                  '<dt>CA</dt>' +
+                  '<dd>' + CA + '</dd>' +
+                  '<dt>CC</dt>' +
+                  '<dd>' + CC + '</dd>' +
+                  '<dt>SUMA_EE</dt>' +
+                  '<dd>' + SUMA_EE + '</dd>' +
+                  '<dt>SUM_POBL</dt>' +
+                  '<dd>' + SUM_POBL + '</dd>' +
+		  
+              '</dl>')
+              .addTo(map);
+        } 
+      });
+
+      map.on('load', function () {
+           
+           map.addSource('DENS_HAB', {
+               type: 'vector',
+               url: 'mapbox://mapbox.2opop9hr'
+           });
+           map.addLayer({
+               'layout': {
+                   'visibility': 'visible'
+               },
+               'source-layer': 'DENS_HAB'
+           });
+
+           map.addSource('isolineas-activ', {
+               type: 'vector',
+               url: 'mapbox://mapbox.2opop9hr'
+           });
+           map.addLayer({
+               'layout': {
+                   'visibility': 'visible'
+               },
+               'source-layer': 'isolineas-activ'
+           });
+       
+           map.addSource('edificios-sfll', {
+               type: 'vector',
+               url: 'mapbox://mapbox.2opop9hr'
+           });
+           map.addLayer({
+               'layout': {
+                   'visibility': 'visible'
+               },
+               'source-layer': 'edificios-sfll'
+           });
+
+           map.addSource('contorno-malla', {
+               type: 'vector',
+               url: 'mapbox://mapbox.2opop9hr'
+           });
+           map.addLayer({
+               'layout': {
+                   'visibility': 'visible'
+               },
+               'source-layer': 'contorno-malla'
+           });
+
+           map.addSource('COMP_ABS', {
+               type: 'vector',
+               url: 'mapbox://mapbox.2opop9hr'
+           });
+           map.addLayer({
+               'layout': {
+                   'visibility': 'visible'
+               },
+               'source-layer': 'COMP_ABS'
+           });
+
+           map.addSource('COMP_CORR', {
+               type: 'vector',
+               url: 'mapbox://mapbox.2opop9hr'
+           });
+           map.addLayer({
+               'layout': {
+                   'visibility': 'visible'
+               },
+               'source-layer': 'COMP_CORR'
+           });
+
+           map.addSource('viario-AMB', {
+               type: 'vector',
+               url: 'mapbox://mapbox.2opop9hr'
+           });
+           map.addLayer({
+               'layout': {
+                   'visibility': 'visible'
+               },
+               'source-layer': 'viario-AMB'
+           });
+       });
+       
+       var toggleableLayerIds = [ 'DENS_HAB', 'isolineas-activ', 'edificios-sfll', 'contorno-malla', 'COMP_ABS', 'COMP_CORR', 'viario-AMB' ];
+       
+       for (var i = 0; i < toggleableLayerIds.length; i++) {
+           var id = toggleableLayerIds[i];
+           
+           var link = document.createElement('a');
+           link.href = '#';
+           link.className = 'active';
+           link.textContent = id;
+           
+           link.onclick = function (e) {
+               var clickedLayer = this.textContent;
+               e.preventDefault();
+               e.stopPropagation();
+           
+               var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+               
+               if (visibility === 'visible') {
+                   map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                   this.className = '';
+               } else {
+                   this.className = 'active';
+                   map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+               }
+           };
+           
+           var layers = document.getElementById('menu');
+           layers.appendChild(link);
+       }
+       
+  </script>
+ 
+</body>
+</html>
